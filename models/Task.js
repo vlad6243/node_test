@@ -25,8 +25,10 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: true,
             validate: {
-                isIn: [['View', 'In Progress', 'Done']],
-                msg: "Must be View or In Progress or Done."
+                isIn: {
+                    args:[['View', 'In Progress', 'Done']],
+                    msg: 'Must be View or In Progress or Done'
+                }
             }
         }
     });

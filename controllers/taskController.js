@@ -62,12 +62,14 @@ module.exports.remove = async function(req,res){
 }
 
 module.exports.getAll = async function(req,res){
+    const ordering = req.query.ordering ? req.query.ordering : 'ASC'
+    const status = req.query.status ? req.query.status : 'View'
     try {
         const tasks = await Task.findAll({
             where:{
-                status: req.params.status
+                status: status
             },
-            order: ['userId','DESC']
+            order: [['userId', ordering]]
         })
         res.status(200).json(tasks)
     }catch (e) {

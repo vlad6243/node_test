@@ -8,9 +8,9 @@ const app = express()
 
 const db = require("./models");
 const autocomplete = require('./autocomplete');
-db.sequelize.sync(({force: true}).then(() => {
+db.sequelize.sync({force: true}).then( () => {
     autocomplete.initial();
-}));
+});
 
 app.use(passport.initialize())
 require('./middleware/passport')(passport)

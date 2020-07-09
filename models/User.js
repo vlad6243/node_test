@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: true,
             field: 'first_name',
-            validate:{
+            validate: {
                 max: 30,
                 min: 2
             }
@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: true,
             field: 'last_name',
-            validate:{
+            validate: {
                 max: 30,
                 min: 2
             }
@@ -30,17 +30,16 @@ module.exports = (sequelize, DataTypes) => {
             allowNull: false,
             validate: {
                 isEmail: true,
-                max:30
+                max: 30
             }
         },
         password: {
             type: DataTypes.STRING,
             allowNull: false,
             validate: {
-                max: 20,
                 min: 5
             }
-        },
+        }
     });
 
     return User;

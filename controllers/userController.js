@@ -15,16 +15,26 @@ module.exports.getProfile = async function (req,res) {
     }
 }
 
+const getPaginationData = (data, page, limit) => {
+    const { count: totalItems, rows: users } = data;
+    const currentPage = page ? page : 0;
+    const totalPages = Math.ceil(totalItems / limit);
+
+    return { totalItems, users, totalPages, currentPage };
+}
+
 module.exports.getAll = async function (req,res) {
-    try {
-        const users = await User.findAll({
-            limit:10,
-            offset:req.query.offset
+    const limit = req.query.size ? req.query.size : 10;
+    const offset = req.query.page ? req.query.page * limit : 0;
+
+    const users = await User.findAndCountAll({ limit: limit, offset: offset, })
+        .then( data => {
+            const response = getPaginationData(data,req.query.page,limit)
+            res.status(200).json(response)
         })
-        res.status(200).json(users)
-    }catch (e) {
-        errorHandler(res, e)
-    }
+        .catch ( e => {
+            errorHandler(res, e)
+        })
 }
 
 module.exports.update = async function (req,res) {
